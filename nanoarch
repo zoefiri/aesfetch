@@ -1,0 +1,37 @@
+#!/bin/zsh
+colls=$(tput cols)
+center() {
+collsp=$(expr $colls - ${#current})
+collspace=$(expr $collsp / 2)
+printf ' %.0s' {1..$collspace}
+}
+1='      /\      '   
+2='     /^^\     '          
+3='    /\   \    '        
+4='   /  __  \   '        
+5='  /  (  )  \  '       
+6=' / __I  I__\\\'     
+7=' ///         \\\'
+current=$1
+center
+printf "\e[1;34m$1 \n"
+current=$2
+center
+printf "\e[1;34m$2\n"
+current=$3
+center
+printf "\e[1;34m$3\n"
+current=$4
+center
+printf "\e[1;34m$4\n"
+current=$5
+center
+printf "\e[1;34m$5\n"
+current=$6
+center
+printf "\e[1;34m$6"
+echo
+current=$7
+center
+printf "\e[1;34m$7 \n"
+#printf "1 3 5 7 9 1 3 5 7 9 1 3 5 7 9 1 3 5 7 9 1 3 5 7 9 1 3 5 7 9 1 3"
