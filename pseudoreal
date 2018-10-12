@@ -11,38 +11,43 @@ done
 }
 memorytotal=$(free -m | grep -o "[0-9]*" | head -n 1)
 memoryused=$(free -m | grep -o "[0-9]*" | head -n 2 | tail -1)
-w="\e[1;39m"
-c="\e[1;34m"
-x="\e[1;39m x"
+w="[1;39m"
+c="[1;34m"
+x="[1;39m x"
 #art
+printf "\n\n"
 /home/zoe/lol/nanoarch
-#info
-user="$w=+=$c Zoe Firi $w=+="
-os="os$x$c arch$w"
-wm="wm$x$c herbstluftwm$w"
-terminal="$w terminal$x$c termite$w"
-font="font$x$c kakwafont$w"
-cpu="cpu$x$c fx-6350$w"
-gpu="gpu$x$c amd r9 270x$w"
-memory="memory$x $c$memoryused MiB / $memorytotal MiB"
-colorblocks="\e[1;30m█\e[1;31m█\e[1;32m█\e[1;33m█\e[1;34m█\e[1;35m█\e[1;36m█\e[1;37m█"
 
-usertxt="=+= Zoe Firi =+="
-ostxt="os x arch"
-wmtxt="wm x herbstluftwm"
-terminaltxt="terminal x termite"
-fonttxt="font x kakwafont"
+#Setting stuff
+
+
+#setting things
+usertxt="=+= $USER =+="
+ostxt="echo $(uname -r | grep -o "\-*...." | tail -n 1 | awk '{print tolower($0)}')"
+wmtxt="wm x $GDMSESSION"
+terminaltxt="terminal x $(xprop -id `xdotool getwindowfocus`| grep WM_CLASS\(STRING\) | grep -o "\"[A-Za-z0-9]*\"" | grep -o "[A-Za-z0-9]*" | head -n 1)"
 cputxt="cpu x fx-6350"
-gputxt="gpu x amd r9 270x"
-memorytxt="memory x$memoryused MiB / $memorytotal MiB"
+gputxt="gpu x $(lspci | grep VGA | grep -o "\[.*\]" | cut -d'/' -f3 | cut -d'[' -f2)"
+memorytxt="memory x$memoryused mib / $memorytotal mib"
 colorblockstxt="████████"
 #out
 #collsp=$(expr $colls - ${#os})
 #collspace=$(expr $collsp / 2)
 
+#info
+user="$w=+=$c $USER $w=+="
+os="os$x$c $(uname -r | grep -o "\-*...." | tail -n 1 | awk '{print tolower($0)}')$w"
+wm="wm$x$c $GDMSESSION$w"
+terminal="$w terminal$x$c $(xprop -id `xdotool getwindowfocus`| grep WM_CLASS\(STRING\) | grep -o "\"[A-Za-z0-9]*\"" | grep -o "[A-Za-z0-9]*" | head -n 1)$w"
+cpu="cpu$x$c fx-6350$w"
+gpu="gpu$x$c $(lspci | grep VGA | grep -o "\[.*\]" | cut -d'/' -f3 | cut -d'[' -f2 | awk '{print tolower($0)}')$w"
+memory="memory$x $c$memoryused mib / $memorytotal mib"
+colorblocks="[1;30m█[1;31m█[1;32m█[1;33m█[1;34m█[1;35m█[1;36m█[1;37m█"
+
+
 
 #newlines
-printf '\n\n'
+printf "\n\n"
 
 #print username
 current=$usertxt
@@ -63,11 +68,6 @@ printf "$wm\n"
 current=$terminaltxt
 center
 printf "$terminal\n"
-
-#print font
-current=$fonttxt
-center
-printf "$font\n"
 
 #print CPU
 current=$cputxt
