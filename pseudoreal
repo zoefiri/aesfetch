@@ -1,10 +1,13 @@
-#!/bin/zsh
+#!/bin/sh
 #scripting
 colls=$(tput cols)
 center() {
 collsp=$(expr $colls - ${#current})
 collspace=$(expr $collsp / 2)
-printf ' %.0s' {1..$collspace}
+i=0
+while [ $((i+=1)) -le $collspace ]; do
+     printf " %.0s" "$i"
+done
 }
 memorytotal=$(free -m | grep -o "[0-9]*" | head -n 1)
 memoryused=$(free -m | grep -o "[0-9]*" | head -n 2 | tail -1)
@@ -12,26 +15,27 @@ w="\e[1;39m"
 c="\e[1;34m"
 x="\e[1;39m x"
 #art
-[ARTPATH]
+/home/zoe/lol/nanoarch
 #info
-user="$w=+=$c [USERNAME] $w=+="
-os="os$x$c [OS]$w"
-wm="wm$x$c [WM]$w"
-terminal="$w terminal$x$c [TERMINAL]$w"
-font="font$x$c [FONT]$w"
-cpu="cpu$x$c [CPU]$w"
-gpu="gpu$x$c [GPU]$w"
+user="$w=+=$c Zoe Firi $w=+="
+os="os$x$c arch$w"
+wm="wm$x$c herbstluftwm$w"
+terminal="$w terminal$x$c termite$w"
+font="font$x$c kakwafont$w"
+cpu="cpu$x$c fx-6350$w"
+gpu="gpu$x$c amd r9 270x$w"
 memory="memory$x $c$memoryused MiB / $memorytotal MiB"
+colorblocks="\e[1;30m█\e[1;31m█\e[1;32m█\e[1;33m█\e[1;34m█\e[1;35m█\e[1;36m█\e[1;37m█"
 
-usertxt="=+= [USERNAME] =+="
-ostxt="os x [OS]"
-wmtxt="wm x [WM]"
-terminaltxt="terminal x [TERMINAL]"
-fonttxt="font x [FONT]"
-cputxt="cpu x [CPU]"
-gputxt="gpu x [GPU]"
+usertxt="=+= Zoe Firi =+="
+ostxt="os x arch"
+wmtxt="wm x herbstluftwm"
+terminaltxt="terminal x termite"
+fonttxt="font x kakwafont"
+cputxt="cpu x fx-6350"
+gputxt="gpu x amd r9 270x"
 memorytxt="memory x$memoryused MiB / $memorytotal MiB"
-colorblocks="
+colorblockstxt="████████"
 #out
 #collsp=$(expr $colls - ${#os})
 #collspace=$(expr $collsp / 2)
@@ -78,4 +82,9 @@ printf "$gpu\n"
 #print memory
 current=$memorytxt
 center
-printf "$memory\n"
+printf "$memory\n\n"
+
+#print colors
+current=$colorblockstxt
+center
+printf "$colorblocks\n"
