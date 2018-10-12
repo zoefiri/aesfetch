@@ -8,12 +8,13 @@ printf "\n\n"
 #scripting
 colls=$(tput cols)
 center() {
-collsp=$(($colls-${#current}))
-collspace=$(($collsp/2))
+collsp=$($colls-${#current})
+collspace=$($collsp/2)
 i=0
 while [ $((i+=1)) -le $collspace ]; do
      printf " %.0s" "$i"
 done
+
 }
 memorytotal=$(free -m | grep -o "[0-9]*" | head -n 1)
 memoryused=$(free -m | grep -o "[0-9]*" | head -n 2 | tail -1)
