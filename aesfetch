@@ -3,14 +3,13 @@
 #art
 printf "\n\n"
 /home/zoe/lol/nanoarch
-
+printf "\n"
 
 #scripting
 colls=$(tput cols)
 center() {
 current=$1
 chars0="${current//[0;3*m}"
-
 chars="${chars0//[1;3*m}"
 collspace=$((($colls-${#chars})/2))
 i=0
@@ -19,24 +18,19 @@ while [ $((i+=1)) -le $collspace ]; do
 done
 printf "$1\n"
 }
+
+prontt() {
+u=0
+while [ $((u+=1)) -le 9 ]; do
+	center "${!u}"
+done
+printf "\n\n"
+}
 memorytotal=$(free -m | grep -o "[0-9]*" | head -n 1)
 memoryused=$(free -m | grep -o "[0-9]*" | head -n 2 | tail -1)
 w="[0;39m"
 c="[1;34m"
 x="[1;39m x"
-
-
-
-#setting things
-user="=+= $USER =+="
-os="echo $(uname -r | grep -o "\-*...." | tail -n 1 | awk '{print tolower($0)}')"
-wm="wm x $GDMSESSION"
-terminal="terminal x $(xprop -id `xdotool getwindowfocus`| grep WM_CLASS\(STRING\) | grep -o "\"[A-Za-z0-9]*\"" | grep -o "[A-Za-z0-9]*" | head -n 1)"
-cpu="cpu x$(cat /proc/cpuinfo | grep 'model name' | head -n 1 | cut -d':' -f2 | sed -e s/"\ [a-zA-Z0-9]*-[cC]ore.*"//g -e s/"(tm)"//g)"
-gpu="gpu x $(lspci | grep VGA | grep -o "\[.*\]" | cut -d'/' -f3 | cut -d'[' -f2)"
-memory="memory x$memoryused mib / $memorytotal mib"
-colorblocks="████████"
-
 
 #info
 usertxt="$w=+=$c $USER $w=+="
@@ -47,35 +41,7 @@ cputxt="cpu$x$c$(cat /proc/cpuinfo | grep 'model name' | head -n 1 | cut -d':' -
 gputxt="gpu$x$c $(lspci | grep VGA | grep -o "\[.*\]" | cut -d'/' -f3 | cut -d'[' -f2 | awk '{print tolower($0)}')$w"
 memorytxt="memory$x $c$memoryused mib / $memorytotal mib"
 colorblockstxt="[1;30m█[1;31m█[1;32m█[1;33m█[1;34m█[1;35m█[1;36m█[1;37m█"
+newline=" "
 
 
-
-#newlines
-printf "\n\n"
-
-#print username
-center "$usertxt"
-
-#print OS
-center "$ostxt"
-
-#print WM
-center "$wmtxt"
-
-#print terminal
-center "$terminaltxt"
-
-#print CPU
-center "$cputxt"
-
-#print GPU
-center "$gputxt"
-
-#print memory
-center "$memorytxt"
-
-printf "\n"
-
-#print colors
-center "$colorblockstxt"
-
+prontt "$colorblockstxt" "$newline" "$usertxt" "$ostxt" "$wmtxt" "$terminaltxt" "$cputxt" "$gputxt" "$memorytxt"
