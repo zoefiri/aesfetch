@@ -1,0 +1,5 @@
+#!/bin/bash
+while IFS='' read -r line || [[ -n "$line" ]]; do
+    printf "$line"
+    printf "\n"
+done < "$1"

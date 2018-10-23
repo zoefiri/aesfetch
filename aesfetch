@@ -1,11 +1,11 @@
 #!/bin/sh
 
-#art
-printf "\n\n"
-/home/zoe/lol/nanoarch
-printf "\n"
+#ASCII art file
+asciitxt=$1
 
 #scripting
+#+++++++++++++++++++++++++++++++++
+
 colls=$(tput cols)
 center() {
 current=$1
@@ -16,8 +16,16 @@ i=0
 while [ $((i+=1)) -le $collspace ]; do
      printf " %.0s" "$i"
 done
-printf "$1\n"
+printf '%s\n' "$1"
 }
+
+#+++++++++++++++++++++++++++++++++
+printf "\n\n"
+while IFS='' read -r line || [[ -n "$line" ]]; do
+    center "$line"
+done < "$asciitxt"
+printf "\n"
+#+++++++++++++++++++++++++++++++++
 
 prontt() {
 u=0
@@ -26,15 +34,20 @@ while [ $((u+=1)) -le 9 ]; do
 done
 printf "\n\n"
 }
+
+#+++++++++++++++++++++++++++++++++
+
 memorytotal=$(free -m | grep -o "[0-9]*" | head -n 1)
 memoryused=$(free -m | grep -o "[0-9]*" | head -n 2 | tail -1)
 w="[0;39m"
 c="[1;34m"
 x="[1;39m x"
 
+#+++++++++++++++++++++++++++++++++
+
 #info
 usertxt="$w=+=$c $USER $w=+="
-ostxt="os$x$c $(uname -r | grep -o "\-*...." | tail -n 1 | awk '{print tolower($0)}')$w"
+ostxt="os$x$c $(uname -r | grep -o "\-[0-9a-zA-Z]*" | cut -d'-' -f2 | tail -n 1 | awk '{print tolower($0)}')$w"
 wmtxt="wm$x$c $GDMSESSION$w"
 terminaltxt="$w terminal$x$c $(xprop -id `xdotool getwindowfocus`| grep WM_CLASS\(STRING\) | grep -o "\"[A-Za-z0-9]*\"" | grep -o "[A-Za-z0-9]*" | head -n 1)$w"
 cputxt="cpu$x$c$(cat /proc/cpuinfo | grep 'model name' | head -n 1 | cut -d':' -f2 | sed s/\(tm\)//g | sed -e s/"\ [a-zA-Z0-9]*-[C]ore.*"//g -e s/"(tm)"//g | awk '{print tolower($0)}')$w"
@@ -43,5 +56,8 @@ memorytxt="memory$x $c$memoryused mib / $memorytotal mib"
 colorblockstxt="[1;30m█[1;31m█[1;32m█[1;33m█[1;34m█[1;35m█[1;36m█[1;37m█"
 newline=" "
 
+#+++++++++++++++++++++++++++++++++
 
 prontt "$colorblockstxt" "$newline" "$usertxt" "$ostxt" "$wmtxt" "$terminaltxt" "$cputxt" "$gputxt" "$memorytxt"
+
+
