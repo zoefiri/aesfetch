@@ -10,7 +10,8 @@ colls=$(tput cols)
 center() {
 current=$1
 chars0="${current//[0;3*m}"
-chars="${chars0//[1;3*m}"
+chars1="${chars0//[1;3*m}"
+chars="${chars1//[3*m}"
 collspace=$((($colls-${#chars})/2))
 i=0
 while [ $((i+=1)) -le $collspace ]; do
